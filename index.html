@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Alert: Deadline Protocol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Baru dengan Tema "System Alert / Sci-Fi" */
+        body {
+            background-color: #151515;
+            color: #f0f0f0;
+            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 15px; /* Menambah sedikit padding pada body */
+            box-sizing: border-box;
+        }
+
+        .container {
+            /* --- PERUBAHAN UTAMA DI SINI --- */
+            width: 95%; /* Dibuat lebih lebar */
+            max-width: 1000px; /* Batas lebar maksimal ditingkatkan secara signifikan */
+            /* -------------------------------- */
+            padding: 40px 30px;
+            background-color: #1f1f1f;
+            border: 1px solid #333;
+            border-top: 3px solid #ff3b3b;
+            border-radius: 4px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease-in-out; /* Animasi transisi halus */
+        }
+
+        img.logo {
+            max-width: 150px; /* Sedikit diperbesar agar proporsional */
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 10px rgba(255, 59, 59, 0.4));
+        }
+
+        .title {
+            /* Ukuran font dibuat responsif dengan clamp(min, ideal, max) */
+            font-size: clamp(16px, 2.5vw, 24px); 
+            color: #ff3b3b;
+            text-transform: uppercase;
+            letter-spacing: 4px; /* Jarak antar huruf ditambah */
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        #countdown {
+            /* Ukuran font countdown dibuat sangat responsif */
+            font-size: clamp(36px, 5vw, 110px); 
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 8px; /* Jarak antar huruf ditambah */
+            margin-bottom: 25px;
+            text-shadow: 0 0 5px rgba(255, 59, 59, 0.7),
+                         0 0 10px rgba(255, 59, 59, 0.5);
+        }
+
+        #message {
+            margin-top: 15px;
+            /* Ukuran font dibuat responsif */
+            font-size: clamp(14px, 2vw, 20px);
+            color: #a0a0a0;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        
+        #message span {
+            color: #f0f0f0;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="21MBRA.png" alt="Logo Angkatan" class="logo">
+        
+        <h1 class="title">// Time-Critical Protocol //</h1>
+        <div id="countdown">Memuat...</div>
+        <p id="message">"Nyawa tinggal <span id="days-left">--</span> Hari lagi."</p>
+    </div>
+
+    <script>
+        // --- PENGATURAN PENTING ---
+        // GANTI TANGGAL DI BAWAH INI DENGAN BATAS AKHIR ANDA
+        // Format: 'YYYY-MM-DDTHH:mm:ss' (Tahun-Bulan-HariTJam:Menit:Detik)
+        const targetDate = new Date('2025-08-30T23:59:59');
+        // -------------------------
+
+        const countdownElement = document.getElementById('countdown');
+        const messageElement = document.getElementById('message');
+        const daysLeftElement = document.getElementById('days-left');
+
+        function updateCountdown() {
+            const now = new Date();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                countdownElement.innerHTML = "DEADLINE PASSED";
+                messageElement.innerHTML = "Protocol Failed. Good luck next semester.";
+                daysLeftElement.textContent = "0";
+                clearInterval(interval);
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            const fHours = hours.toString().padStart(2, '0');
+            const fMinutes = minutes.toString().padStart(2, '0');
+            const fSeconds = seconds.toString().padStart(2, '0');
+
+            countdownElement.innerHTML = `${days}d : ${fHours}h : ${fMinutes}m : ${fSeconds}s`;
+            daysLeftElement.textContent = days;
+        }
+
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+
+</body>
+</html>
